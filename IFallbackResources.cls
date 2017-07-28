@@ -30,26 +30,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- *
  * @author Bill Anderson
  * @date 
- * @brief Holder of the last transaction operations
- * @description Holder of the last transaction operations
+ * @description Fallback resources in the event a custom setting/static resource is not  set in SF
  * @group Common Layer
- **/
-public virtual interface IPreviousTransactionResult {
+ */
+public virtual interface IFallbackResources {
 
 	/**
-	 * @brief get last database result
-	 * @description et last database result
-	 * @return  SaveResult
+	 * @brief Get Fallback Resources
+	 * @description Get Fallback Resources
+	 * @return Object - fallback resource
 	 */
-	List<Database.SaveResult> databaseResult();
+	Object fallbackResource();
 	/**
-	 * @brief set last database result
-	 * @description set last database result
-	 * 
-	 * @param result SaveResult
+	 * @brief get fallback resource as a string
+	 * @description get fallback resource as a string
+	 * @return get fallback resource as a string
 	 */
-	void databaseResult(List<Database.SaveResult> result);
-} // end of IPreviousTransactionResult
+	String toString();
+	/**
+	  * @brief get fallback resource as a Map<String,String>
+	 * @description get fallback resource as a Map<String,String>
+	 * @return get fallback resource as a Map<String,String>, or  <name,value> pair
+	 */
+	Map<String, String> toMap();
+
+} // end of IFallbackResources

@@ -30,26 +30,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- *
  * @author Bill Anderson
- * @date 
- * @brief Holder of the last transaction operations
- * @description Holder of the last transaction operations
+ * @date 06/20/2016
+ * @brief Interface that defines the format signature
+ * @description Interface that defines the format signature
  * @group Common Layer
- **/
-public virtual interface IPreviousTransactionResult {
+ */
+public virtual interface IDataFormat {
 
 	/**
-	 * @brief get last database result
-	 * @description et last database result
-	 * @return  SaveResult
-	 */
-	List<Database.SaveResult> databaseResult();
-	/**
-	 * @brief set last database result
-	 * @description set last database result
+	 * @brief Data to format
+	 * @description Data to format
 	 * 
-	 * @param result SaveResult
+	 * @param  input data to format
+	 * @return a formatted object
 	 */
-	void databaseResult(List<Database.SaveResult> result);
-} // end of IPreviousTransactionResult
+	Object format(Object information);
+	/**
+	 * @brief Data to format
+	 * @description Data to format
+	 * 
+	 * @param  input data to format
+	 * @param  addtional information ( maybe null)
+	 * @return a formatted object
+	 */
+	Object format(Object information, Object misc);
+} // end of IDataFormat
