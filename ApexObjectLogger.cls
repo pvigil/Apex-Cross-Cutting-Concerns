@@ -89,4 +89,4 @@ global class ApexObjectLogger extends ApexLogger {
 	} // end of write
 
 
-} // end of ApexLogger
+} // end of ApexObjectLogger
