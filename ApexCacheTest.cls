@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -40,144 +40,139 @@
  */
 @isTest
 private class ApexCacheTest {
-	@isTest
-	static void TestCtor() {
-		// assign & act
-		ICache mcache  = new ApexCache();
-		// assert
-		System.Assert(mcache != null, 'Test ApexCache ctor');
-	} // end of TestCtor
 
-	@isTest
-	static void TesttoggleEnabled() {
-		// assign
-		ApexCache mcache  = new ApexCache();
-		Boolean toggleEnabled = false;
-		// act
-		Boolean result = mcache.toggleEnabled();
-		// assert
-		System.Assert(  result == toggleEnabled, 'Test ApexCache toggleEnabled');
-	} // end of TesttoggleEnabled
+    @isTest
+    static void TestCtor() {
+        // assign & act
+        ICache mcache = new ApexCache();
+        // assert
+        System.Assert(mcache != null, 'Test ApexCache ctor');
+    } // end of TestCtor
 
-	@isTest
-	static void TestisAvailable() {
-		// assign
-		ICache mcache  = new ApexCache();
-		Boolean  isAvailable = true;
-		// act
-		Boolean result = mcache.isAvailable();
-		// assert
-		System.Assert( isAvailable == result, 'Test ApexCache isAvailable');
-	} // end of TestisAvailable
+    @isTest
+    static void TesttoggleEnabled() {
+        // assign
+        ApexCache mcache = new ApexCache();
+        Boolean toggleEnabled = false;
+        // act
+        Boolean result = mcache.toggleEnabled();
+        // assert
+        System.Assert(result == toggleEnabled, 'Test ApexCache toggleEnabled');
+    } // end of TesttoggleEnabled
 
+    @isTest
+    static void TestisAvailable() {
+        // assign
+        ICache mcache = new ApexCache();
+        Boolean isAvailable = true;
+        // act
+        Boolean result = mcache.isAvailable();
+        // assert
+        System.Assert(isAvailable == result, 'Test ApexCache isAvailable');
+    } // end of TestisAvailable
 
-	@isTest
-	static void TestgetString() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key = ApexUtilities.newGuid();
+    @isTest
+    static void TestgetString() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key = ApexUtilities.newGuid();
+        // act
+        String result = (String)mcache.get(key);
+        // assert
+        System.Assert(result == null, 'Test ApexCache get');
+    } // end of TestgetString
 
-		// act
-		String result = (String)mcache.get(key);
-		// assert
-		System.Assert( result == null, 'Test ApexCache get');
-	} // end of TestgetString
+    @isTest
+    static void TestputString() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key = ApexUtilities.newGuid();
+        // act
+        mcache.put(key, key);
+        String result = (String)mcache.get(key);
+        // assert
+        System.Assert(result == key, 'Test ApexCache put');
+    } // end of TestputString
 
-	@isTest
-	static void TestputString() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key = ApexUtilities.newGuid();
+    @isTest
+    static void TestgetKeys() {
+        // assign
+        ICache mcache = new ApexCache();
+        Set<String> keys = new Set<String>();
+        Set<String> results = null;
+        String key;
+        // act
+        for (Integer inx = 0; inx < 100; inx++) {
+            key = ApexUtilities.newGuid();
+            keys.add( key);
+            mcache.put(key, key);
+            System.assert((String)mcache.get(key) == key,'TestgetKeys expected entry, not found');
+        }
 
-		// act
-		mcache.put(key, key);
-		String result = (String)mcache.get(key);
-		// assert
-		System.Assert( result == key, 'Test ApexCache put');
-	} // end of TestputString
+        // act
+        results = mcache.getKeys();
+        for (String item : results) {
+            keys.remove(item);
+        }
+        // assert
+        System.Assert( keys.size() == 0, 'Test ApexCache getkeys');
+    } // end of TestputString
 
-	@isTest
-	static void TestgetKeys() {
-		// assign
-		ICache mcache  = new ApexCache();
-		Set<String> keys = new Set<String>();
-		Set<String> results = null;
-		String key;
-		// act
-		for (Integer inx = 0; inx < 100; inx++) {
-			key = ApexUtilities.newGuid();
-			keys.add( key);
-			mcache.put(key, key);
-			System.assert((String)mcache.get(key) == key,'TestgetKeys expected entry, not found');
-		}
+    @isTest
+    static void Testcontains() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key =  ApexUtilities.newGuid();
 
-		// act
-		results = mcache.getKeys();
-		for (String item : results) {
-			keys.remove(item);
-		}
-		// assert
-		System.Assert( keys.size() == 0, 'Test ApexCache getkeys');
-	} // end of TestputString
+        // act
+        mcache.put(key, 'key');
+        Boolean result = mcache.contains(key);
 
-	@isTest
-	static void Testcontains() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key =  ApexUtilities.newGuid();
+        // assert
+        System.Assert(result == true, 'Test ApexCache Contains');
+    } // end of Testcontains
 
-		// act
+    @isTest
+    static void TestputStringTTL() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key = ApexUtilities.newGuid();
 
-		mcache.put(key, 'key');
-		Boolean result = mcache.contains(key);
+        // act
+        mcache.put(key, key, ApexCache.DEFAULT_MIN_TTL_IN_SECS);
 
-		// assert
-		System.Assert(result == true, 'Test ApexCache Contains');
-	} // end of Testcontains
+        String result = (String)mcache.get(key);
+        // assert
+        System.Assert(result == key, 'Test ApexCache put TTL');
+    } // end of TestputStringTTL
 
-	@isTest
-	static void TestputStringTTL() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key = ApexUtilities.newGuid();
+    @isTest
+    static void Testremove() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key = ApexUtilities.newGuid();
 
-		// act
-		mcache.put(key, key, ApexCache.DEFAULT_MIN_TTL_IN_SECS);
+        // act
+        mcache.put(key, key);
+        mcache.remove(key);
+        String result = (String)mcache.get(key);
+        // assert
+        System.Assert(result == null, 'Test ApexCache remove');
+    } // end of Testremove
 
-		String result = (String)mcache.get(key);
-		// assert
-		System.Assert( result == key, 'Test ApexCache put TTL');
+    @isTest
+    static void TestpartitionName() {
+        // assign
+        ICache mcache = new ApexCache();
+        String key = ApexUtilities.newGuid();
+        String expNS = ApexCache.CACHE_NS;
+        String expPN = ApexCache.CACHE_PARTITON;
+        String expected = expNS + '.' + expPN;
+        // act
+        String partitionName = mcache.partitionName();
 
-	} // end of TestputStringTTL
+        // assert
+        System.Assert(partitionName == expected, 'Test ApexCache partition');
+    } // end of partitionName
 
-	@isTest
-	static void Testremove() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key = ApexUtilities.newGuid();
-
-		// act
-		mcache.put(key, key);
-		mcache.remove(key);
-		String result = (String)mcache.get(key);
-		// assert
-		System.Assert(result == null, 'Test ApexCache remove');
-
-	} // end of Testremove
-
-	@isTest
-	static void TestpartitionName() {
-		// assign
-		ICache mcache  = new ApexCache();
-		String key = ApexUtilities.newGuid();
-		String expNS = ApexCache.CACHE_NS;
-		String expPN = ApexCache.CACHE_PARTITON;
-		String expected = expNS + '.' + expPN;
-		// act
-		String partitionName = mcache.partitionName();
-
-		// assert
-		System.Assert(partitionName == expected, 'Test ApexCache partition');
-
-	} // end of partitionName
 }

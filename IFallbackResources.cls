@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,28 +32,30 @@
  *
  * @author Bill Anderson
  * @date 
- * @description Fallback resources in the event a custom setting/static resource is not  set in SF
+ * @description Fallback resources in the event a custom setting/static resource is not set in SF
  * @group Common Layer
  */
 public virtual interface IFallbackResources {
 
-	/**
-	 * @brief Get Fallback Resources
-	 * @description Get Fallback Resources
-	 * @return Object - fallback resource
-	 */
-	Object fallbackResource();
-	/**
-	 * @brief get fallback resource as a string
-	 * @description get fallback resource as a string
-	 * @return get fallback resource as a string
-	 */
-	String toString();
-	/**
-	  * @brief get fallback resource as a Map<String,String>
-	 * @description get fallback resource as a Map<String,String>
-	 * @return get fallback resource as a Map<String,String>, or  <name,value> pair
-	 */
-	Map<String, String> toMap();
+    /**
+     * @brief Get Fallback Resources
+     * @description Get Fallback Resources
+     * @return Object - fallback resource
+     */
+    Object fallbackResource();
+
+    /**
+     * @brief get fallback resource as a string
+     * @description get fallback resource as a string
+     * @return get fallback resource as a string
+     */
+    String toString();
+
+    /**
+     * @brief get fallback resource as a Map<String,String>
+     * @description get fallback resource as a Map<String,String>
+     * @return get fallback resource as a Map<String,String>, or  <name,value> pair
+     */
+    Map<String, String> toMap();
 
 } // end of IFallbackResources

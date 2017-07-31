@@ -33,60 +33,53 @@
  * @author Salesforce
  * @date
  * @brief write to error logger
- * @description default logger uses the system debug, error, warn, info, etc. The default logging level is DEBUG. This is the default logger
- *  used by 'ApexRunEnvironmentSingleton'
- *  @group Common Layer
- *
+ * @description default logger uses the system debug, error, warn, info, etc.
+ *     The default logging level is DEBUG. This is the default logger used by 'ApexRunEnvironmentSingleton'
+ * @group Common Layer
  */
 global class ApexObjectLogger extends ApexLogger {
 
+    /**
+     * @brief default ctor of ApexObject Logger
+     * @description default ctor of ApexObjectLogger -- set the LoggingLevel to DEBUG
+     */
+    public ApexObjectLogger() {
+        super(LoggingLevel.DEBUG);
+    } // end of ctor
 
-	/**
-	* @brief default ctor of ApexObject Logger
-	* @description default ctor of ApexObjectLogger -- set the LoggingLevel to DEBUG
-	*
-	*/
-	public ApexObjectLogger() {
-		super(LoggingLevel.DEBUG);
-	} // end of ctor
-	/**
-	 * @brief ctor of ApexObject Logger
-	 * @description ctor of ApexObject Logger
-	 *
-	 * @param level LoggingLevel to use for 'write'
-	 */
-	public ApexObjectLogger(LoggingLevel level) {
-		super(level);
-	} // end of ctor
+    /**
+     * @brief ctor of ApexObject Logger
+     * @description ctor of ApexObject Logger
+     *
+     * @param level LoggingLevel to use for 'write'
+     */
+    public ApexObjectLogger(LoggingLevel level) {
+        super(level);
+    } // end of ctor
 
+    ////////////////////////////////////////////////////////////////////////////////
+    /// Protected methods
+    ////////////////////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////////////////////
-	/// Protected methods
-	////////////////////////////////////////////////////////////////////////////////
-
-
-	/**
-	 * @brief write message
-	 * @description write message
-	 *
-	 * @param level log-level
-	 * @param message the message
-	 */
-
-	protected override void write(LoggingLevel level, Object message) {
-		// toString returns a '' value if null
-		String result = ApexUtilities.toString(message);
-		// remember last value
-		this.setLastMessage(level, result);
-		// check limits; otherwise let parent handle it
-		ApplicationLog log = new ApplicationLog(null, result);
-		// save, if we can
-		if ( !log.save()) {
-			// let parent handle it
-			super.write(level, result);
-		}
-
-	} // end of write
-
+    /**
+     * @brief write message
+     * @description write message
+     *
+     * @param level log-level
+     * @param message the message
+     */
+    protected override void write(LoggingLevel level, Object message) {
+        // toString returns a '' value if null
+        String result = ApexUtilities.toString(message);
+        // remember last value
+        this.setLastMessage(level, result);
+        // check limits; otherwise let parent handle it
+        ApplicationLog log = new ApplicationLog(null, result);
+        // save, if we can
+        if ( !log.save() ) {
+            // let parent handle it
+            super.write(level, result);
+        }
+    } // end of write
 
 } // end of ApexObjectLogger

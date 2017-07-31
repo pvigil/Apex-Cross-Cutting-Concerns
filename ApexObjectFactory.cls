@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -36,13 +36,15 @@
  * @description Factory to create runtime objects
  * @group Common Layer
  */
-public  virtual with sharing class ApexObjectFactory implements IApexFactory {
+public virtual with sharing class ApexObjectFactory implements IApexFactory {
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Data Members
     ////////////////////////////////////////////////////////////////////////////////
 
     // the collection of object creation
     private Map<String, Type> theObjectCollection = null;
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Ctors
     ////////////////////////////////////////////////////////////////////////////////
@@ -56,24 +58,24 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
         // inherited (children) classes could call into my PRIVATE methods!!!!
         this.initializeBase();
     } // end of ctor
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Public Methods
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-    * @brief create an instance by name
-    * @description create an instance by name
-    *
-    * @param fqn fully-qualified-name, if needed
-    * @return object instance
-    */
+     * @brief create an instance by name
+     * @description create an instance by name
+     *
+     * @param fqn fully-qualified-name, if needed
+     * @return object instance
+     */
     public virtual Object create(String fqn) {
-
         Type tfqn = Type.forName(fqn);
 
         return this.createFromType(tfqn, fqn);
-
     } // end of create
+
     /**
      * @brief create an object based on the namespace and name
      * @description create an object based on the namespace and name
@@ -84,11 +86,11 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      * @return object instance
      */
     public virtual Object create(String namespace, String name) {
-
         Type tfqn = Type.forName(namespace, name);
 
         return this.createFromType(tfqn, name);
-    }// end of create
+    } // end of create
+
     /**
      * @brief create an object based on the type
      * @description create an object based on the type
@@ -98,7 +100,8 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      */
     public virtual Object create(Type objType) {
         return this.createFromType(objType, null);
-    }// end of create
+    } // end of create
+
     /**
      * @brief associate 'name' to object type for creation
      * @description associate 'name' to object type for creation
@@ -107,10 +110,9 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      * @param objType. type to create
      */
     public virtual void add(String name, Type objType) {
-
         this.addToCollection(name, objType);
+    } // end of add
 
-    }// end of add
     /**
      * @brief Add a type by name
      * @description Add a type by name; if match, overwrite
@@ -121,8 +123,8 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
         Type objType = this.findTypeByName(fqn);
 
         this.addToCollection(fqn, objType);
-
     } // end of add
+
     /**
      * @brief keys in the collection of creators
      * @description keys in the collection of creators
@@ -136,7 +138,6 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
     /// Protected Methods
     ////////////////////////////////////////////////////////////////////////////////
 
-
     /**
      * @brief add look up and type to the known classes we create
      * @description add look up and type to the known classes we create
@@ -146,7 +147,7 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      */
     protected virtual void addToCollection(String name, Type classType) {
         // valid data
-        if ( name != null && classType != null) {
+        if ( name != null && classType != null ) {
             // create the collection, if not already present
             if ( this.theObjectCollection == null ) {
                 this.theObjectCollection = new Map<String, Type>();
@@ -155,6 +156,7 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
             this.theObjectCollection.put(name, classType);
         }
     } // end of addToCollection
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Protected Methods
     ////////////////////////////////////////////////////////////////////////////////
@@ -168,14 +170,17 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      */
     protected virtual Type findTypeByName(String name) {
         Type objType = null;
+
         if ( name != null ) {
             objType = Type.forName(name);
             if ( objType == null ) {
                 objType = Type.forName('', name);
             }
         }
+
         return objType;
-    }// end of findTypeByName
+    } // end of findTypeByName
+
     /**
      * @brief create type from name
      * @description  create the type by name (Fully-Qualified-Name or within the local namespace)
@@ -187,15 +192,18 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
      */
     protected virtual Object createFromType(Type foundType, String name) {
         Object result = null;
-        if ( foundType == null && name != null) {
+
+        if ( foundType == null && name != null ) {
             foundType = this.theObjectCollection.get( name);
         }
         // do we know what to create
-        if (foundType != null ) {
+        if ( foundType != null ) {
             result = foundType.newInstance();
         }
+
         return result;
     } // end of createFromType
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Private Methods
     ////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +222,5 @@ public  virtual with sharing class ApexObjectFactory implements IApexFactory {
         this.addToCollection(ApexConstants.CacheResource, ApexCache.class);
         this.addToCollection(ApexConstants.PreviousTransactionResultResource, ApexPreviousTransactionResult.class);
     } // end of initializeBase
-
-
 
 } // end of ApexObjectFactory

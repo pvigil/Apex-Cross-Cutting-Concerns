@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -35,41 +35,44 @@
  * @brief Used for sending/receiving payload of data
  * @description Used for sending/receiving payload of data
  * @group Common Layer
- *
  */
 public class ApexMessagePayload {
 
-	/**
-	 * @brief default ctor
-	 * @description default ctor
-	 */
-	public ApexMessagePayload() {
-		this.attributes = new Map<String,Object>();
-		this.payloadException = null;
-		this.payload = null;//new NameValueObjectPair();
-	} // end of ctor
-	/**
-	 * @brief our payload
-	 * @description our payload; the receiver will inspect the object to determine if it can be handled
-	 * 
-	 * @param  Object payload
-	 * @return Object payload
-	 */
-	public Object payload {get; set;}
-	/**
-	 * @brief our name/value pair that we can pass in attributes
-	 * @description our name/value pair that we can pass in attributes
-	 * 
-	 * @param  name/value pair of attributes
-	 * @return name/value pair of attributes
-	 */
-	public Map<String, Object> attributes {get; set;}
-	/**
-	 * @brief any exception that may have occured
-	 * @description any exception that may have occured
-	 * 
-	 * @param  exception
-	 * @return exception
-	 */
-	 public ApexApplicationException payloadException {get;set;}
+    /**
+     * @brief default ctor
+     * @description default ctor
+     */
+    public ApexMessagePayload() {
+        this.attributes = new Map<String,Object>();
+        this.payloadException = null;
+        this.payload = null;//new NameValueObjectPair();
+    } // end of ctor
+
+    /**
+     * @brief our payload
+     * @description our payload; the receiver will inspect the object to determine if it can be handled
+     * 
+     * @param  Object payload
+     * @return Object payload
+     */
+    public Object payload { get; set; }
+
+    /**
+     * @brief our name/value pair that we can pass in attributes
+     * @description our name/value pair that we can pass in attributes
+     * 
+     * @param  name/value pair of attributes
+     * @return name/value pair of attributes
+     */
+    public Map<String, Object> attributes { get; set; }
+
+    /**
+     * @brief any exception that may have occured
+     * @description any exception that may have occured
+     * 
+     * @param  exception
+     * @return exception
+     */
+     public ApexApplicationException payloadException { get; set; }
+
 } // end of ApexMessagePayload

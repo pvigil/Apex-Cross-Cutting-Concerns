@@ -37,153 +37,160 @@
  * @group Common Layer
  */
 public class ApplicationLog {
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Data Members
-	//////////////////////////////////////////////////////////////////////////////////////
-	ApplicationLog__c entry;
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Ctors
-	//////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Data Members
+    //////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 */
-	public ApplicationLog(ApplicationLog__c appLogEntry) {
-		this.entry = appLogEntry;
-	}// end of ctor
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 */
-	public ApplicationLog() {
-		this(null, null, null, null, null);
+    ApplicationLog__c entry;
 
-	} // end of ctor
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 */
-	public ApplicationLog(String className
-	                      , String methodName) {
-		this(null, className, methodName, null, null);
-	} // end of ctor
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 */
-	public ApplicationLog(Exception excp
-	                      , String className
-	                      , String methodName) {
-		this(excp, className, methodName, null, null);
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Ctors
+    //////////////////////////////////////////////////////////////////////////////////////
 
-	}// end of ctor
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 */
-	public ApplicationLog(Exception excp
-	                      , String className
-	                      , String methodName
-	                      , String referenceId
-	                      , String referenceInfo) {
-		this.entry = new ApplicationLog__c();
+    /**
+     * @brief ctor
+     * @description ctor
+     */
+    public ApplicationLog(ApplicationLog__c appLogEntry) {
+        this.entry = appLogEntry;
+    } // end of ctor
 
-		this.setUserInfo();
-		this.setLimitsInfo();
-		this.setInvocationInfo();
-		this.setExceptionInfo(excp);
-		this.setSourceInfo(className, methodName);
-		this.setReference(referenceId, referenceInfo);
-	} // end of ctor
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Public Methods
-	//////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief ctor
+     * @description ctor
+     */
+    public ApplicationLog() {
+        this(null, null, null, null, null);
+    } // end of ctor
 
-	public void setIntegrationPayload(String payload) {
-		entry.IntegrationPayload__c = payload;
-	} // end of setIntegrationPayload
+    /**
+     * @brief ctor
+     * @description ctor
+     */
+    public ApplicationLog(String className, String methodName) {
+        this(null, className, methodName, null, null);
+    } // end of ctor
 
-	public void setReference(String referenceId, String referenceInfo) {
-		entry.ReferenceId__c = referenceId;
-		entry.ReferenceInfo__c = referenceInfo;
-	} // end of setReference
+    /**
+     * @brief ctor
+     * @description ctor
+     */
+    public ApplicationLog(Exception excp, String className, String methodName) {
+        this(excp, className, methodName, null, null);
+    } // end of ctor
 
-	public Boolean save() {
-		Boolean result = true;
-		try {
-			if ( Limits.getDMLStatements() < Limits.getLimitDMLStatements() ) {
-				Database.insert(entry, false);
-			}
-		} catch (DMLException dmlExcp) {
-			System.debug(LoggingLevel.ERROR,dmlExcp.getMessage());
-			result = false;
-		} catch (Exception excp) {
-			result = false;
-		}
-		return result;
-	} // end of save
+    /**
+     * @brief ctor
+     * @description ctor
+     */
+    public ApplicationLog(Exception excp
+            , String className
+            , String methodName
+            , String referenceId
+            , String referenceInfo) {
+        this.entry = new ApplicationLog__c();
+        this.setUserInfo();
+        this.setLimitsInfo();
+        this.setInvocationInfo();
+        this.setExceptionInfo(excp);
+        this.setSourceInfo(className, methodName);
+        this.setReference(referenceId, referenceInfo);
+    } // end of ctor
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Private Methods
-	//////////////////////////////////////////////////////////////////////////////////////
-	private void setSourceInfo(String className, String methodName) {
-		entry.Source__c = className == null ? ApexConstants.EmptyString : className;
-		entry.SourceFunction__c = methodName == null ? ApexConstants.EmptyString : methodName;
-	} // end of setSourceInfo
-	/**
-	 * @brief set the exception information
-	 * @description
-	 *
-	 * @param excp Exception
-	 */
-	private void setExceptionInfo(Exception excp) {
-		if (excp != null) {
-			entry.Exception__c = String.valueof(excp.getTypeName());
-			entry.LogCode__c = excp.getTypeName();
-			entry.Message__c = excp.getMessage();
-			entry.StackTrace__c = excp.getStackTraceString();
-		}
-	} // end of setExceptionInfo
-	/**
-	 * @brief set the invocation type
-	 * @description set the invocation type
-	 */
-	private void setInvocationInfo() {
-		entry.InvocationType__c = 'Is Batch? ' + System.isBatch()
-		                          + ' Is Scheduled? ' + System.isScheduled()
-		                          + ' Is Future? ' + System.isFuture()
-		                          + ' Is Queueable? ' + System.isQueueable()
-		                          + ' Is Page? ' + System.currentPageReference();
-	} // end of setInvocationInfo
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    //////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @brief set the limits
-	 * @description set the limits
-	 */
-	private void setLimitsInfo() {
-		String formatted = 'AggregateQueries {0}\n, Callouts {1}\n, CpuTime {2}\n, DMLRows {3}\n, DML Statements {4}\n, HeapSize {5}\n,Queries {6}\n';
-		List<String> data = new String[] {
-		    String.valueof(Limits.getAggregateQueries())
-		    , String.valueof(Limits.getCallouts())
-		    , String.valueof(Limits.getCpuTime())
-		    , String.valueof(Limits.getDMLRows())
-		    , String.valueof(Limits.getDMLStatements())
-		    , String.valueof(Limits.getHeapSize())
-		    , String.valueof(Limits.getQueries())
-		};
+    public void setIntegrationPayload(String payload) {
+        entry.IntegrationPayload__c = payload;
+    } // end of setIntegrationPayload
 
-		entry.Statistics__c = string.format(formatted, data);
-	} // end of setLimitsInfo
-	/**
-	 * @brief set user and profile information
-	 * @description  set user and profile information
-	 */
-	private void setUserInfo() {
-		entry.Username__c = UserInfo.getUserName();
-		entry.profileId__c = UserInfo.getProfileId();
-		entry.UserRoleId__c = UserInfo.getUserRoleId();
-	} // end of setUserInfo
+    public void setReference(String referenceId, String referenceInfo) {
+        entry.ReferenceId__c = referenceId;
+        entry.ReferenceInfo__c = referenceInfo;
+    } // end of setReference
+
+    public Boolean save() {
+        Boolean result = true;
+
+        try {
+            if ( Limits.getDMLStatements() < Limits.getLimitDMLStatements() ) {
+                Database.insert(entry, false);
+            }
+        } catch (DMLException dmlExcp) {
+            System.debug(LoggingLevel.ERROR,dmlExcp.getMessage());
+            result = false;
+        } catch (Exception excp) {
+            result = false;
+        }
+
+        return result;
+    } // end of save
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Private Methods
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    private void setSourceInfo(String className, String methodName) {
+        entry.Source__c = className == null ? ApexConstants.EmptyString : className;
+        entry.SourceFunction__c = methodName == null ? ApexConstants.EmptyString : methodName;
+    } // end of setSourceInfo
+
+    /**
+     * @brief set the exception information
+     * @description
+     *
+     * @param excp Exception
+     */
+    private void setExceptionInfo(Exception excp) {
+        if ( excp != null ) {
+            entry.Exception__c = String.valueof(excp.getTypeName());
+            entry.LogCode__c = excp.getTypeName();
+            entry.Message__c = excp.getMessage();
+            entry.StackTrace__c = excp.getStackTraceString();
+        }
+    } // end of setExceptionInfo
+
+    /**
+     * @brief set the invocation type
+     * @description set the invocation type
+     */
+    private void setInvocationInfo() {
+        entry.InvocationType__c = 'Is Batch? ' + System.isBatch()
+                                  + ' Is Scheduled? ' + System.isScheduled()
+                                  + ' Is Future? ' + System.isFuture()
+                                  + ' Is Queueable? ' + System.isQueueable()
+                                  + ' Is Page? ' + System.currentPageReference();
+    } // end of setInvocationInfo
+
+    /**
+     * @brief set the limits
+     * @description set the limits
+     */
+    private void setLimitsInfo() {
+        String formatted = 'AggregateQueries {0}\n, Callouts {1}\n, CpuTime {2}\n, DMLRows {3}\n, DML Statements {4}\n, HeapSize {5}\n,Queries {6}\n';
+        List<String> data = new String[] {
+            String.valueof(Limits.getAggregateQueries())
+            , String.valueof(Limits.getCallouts())
+            , String.valueof(Limits.getCpuTime())
+            , String.valueof(Limits.getDMLRows())
+            , String.valueof(Limits.getDMLStatements())
+            , String.valueof(Limits.getHeapSize())
+            , String.valueof(Limits.getQueries())
+        };
+
+        entry.Statistics__c = string.format(formatted, data);
+    } // end of setLimitsInfo
+
+    /**
+     * @brief set user and profile information
+     * @description  set user and profile information
+     */
+    private void setUserInfo() {
+        entry.Username__c = UserInfo.getUserName();
+        entry.profileId__c = UserInfo.getProfileId();
+        entry.UserRoleId__c = UserInfo.getUserRoleId();
+    } // end of setUserInfo
 
 } // end of ApplicationLog

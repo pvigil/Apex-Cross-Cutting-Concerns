@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -35,7 +35,6 @@
  * @brief Message sent response
  * @description SMessage sent response
  * @group Common Layer
- *
  */
 global with sharing class ApexMessageSendResponse {
 
@@ -43,38 +42,40 @@ global with sharing class ApexMessageSendResponse {
     /// Data Members
     ////////////////////////////////////////////////////////////////////////////////
 
-	// object specific response
-	private Object theResponse;
-	// the exception, if any
-	private Exception theException;
+    // object specific response
+    private Object theResponse;
+    // the exception, if any
+    private Exception theException;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Ctors
     ////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 * 
-	 * @param response object specific response ( must be cast)
-	 * 
-	 */
-	public ApexMessageSendResponse(Object response) {
-		this.theException = null;
-		this.theResponse = response;
-	} // end of ctor
-	/**
-	 * @brief ctor
-	 * @description ctor
-	 * 
-	 * @param response object specific response ( must be cast)
-	 * @param excp the exception, if any
-	 * 
-	 */
-	public ApexMessageSendResponse(Object response, Exception excp) {
-		this.theException = excp;
-		this.theResponse = response;
-	} // end of ctor
+    /**
+     * @brief ctor
+     * @description ctor
+     * 
+     * @param response object specific response ( must be cast)
+     * 
+     */
+    public ApexMessageSendResponse(Object response) {
+        this.theException = null;
+        this.theResponse = response;
+    } // end of ctor
+
+    /**
+     * @brief ctor
+     * @description ctor
+     * 
+     * @param response object specific response ( must be cast)
+     * @param excp the exception, if any
+     * 
+     */
+    public ApexMessageSendResponse(Object response, Exception excp) {
+        this.theException = excp;
+        this.theResponse = response;
+    } // end of ctor
+
     ////////////////////////////////////////////////////////////////////////////////
     /// Public Members
     ////////////////////////////////////////////////////////////////////////////////
@@ -84,17 +85,17 @@ global with sharing class ApexMessageSendResponse {
      * @description the response ( must be casted appropriately)
      * @return Object
      */
-	public Object getResponse() {
-		return this.theResponse;
-	} // end of getResponse
+    public Object getResponse() {
+        return this.theResponse;
+    } // end of getResponse
 
-	/**
-	 * @brief the exception
-	 * @description the exception
-	 * @return Exception -- typically ApexApplicationException
-	 */
-	public Exception getException() {
-		return this.theException;
-	} // end of getException
+    /**
+     * @brief the exception
+     * @description the exception
+     * @return Exception -- typically ApexApplicationException
+     */
+    public Exception getException() {
+        return this.theException;
+    } // end of getException
 
 } // end of ApexMessageSendResponse

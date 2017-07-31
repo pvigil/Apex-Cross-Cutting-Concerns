@@ -1,22 +1,22 @@
 /**
  * Copyright (c) 2016, Salesforce.com, Inc.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
  *     distribution.
- * 
+ *
  *   * Neither the name of Salesforce.com nor the names of its
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -33,55 +33,56 @@
  * @author Salesforce
  * @date
  * @description Test Mail message sender
- *
  */
 @isTest
 private class ApexMailMessageSenderTest {
-	/**
-	 * @brief Test with invalid data
-	 * @decription Test with invalid data
-	 */
-	@isTest
-	static void testSendWithInvalidData() {
-		ApexMessagePayload payload = setupMailPayload();
-		IApexMessageSender sender = new ApexMailMessageSender();
 
-		ApexMessageSendResponse response = sender.send(payload);
+    /**
+     * @brief Test with invalid data
+     * @decription Test with invalid data
+     */
+    @isTest
+    static void testSendWithInvalidData() {
+        ApexMessagePayload payload = setupMailPayload();
+        IApexMessageSender sender = new ApexMailMessageSender();
 
-		System.assert(response != null, 'testSendWithInvalidData , ApexMessageSendResponse == null');
-		System.assert(response.getResponse() == null, 'testSendWithInvalidData , response.getResponse != null');
+        ApexMessageSendResponse response = sender.send(payload);
 
-	}
-	/**
-	 * @brief Test Send valid data
-	 * @decription Test sending valida data
-	 */
-	@isTest
-	static void testSendWithValidData() {
-		ApexMessagePayload payload = setupMailPayload();
-		
-		IApexMessageSender sender = new ApexMailMessageSender();
-		payload.attributes.put('Reply', 'replyto@test.com');
-		ApexMessageSendResponse response = sender.send(payload);
+        System.assert(response != null, 'testSendWithInvalidData , ApexMessageSendResponse == null');
+        System.assert(response.getResponse() == null, 'testSendWithInvalidData , response.getResponse != null');
+    }
 
-		System.assert(response != null, 'testSendWithValidData , ApexMessageSendResponse == null');
-		System.assert(response.getResponse() != null, 'testSendWithValidData , response.getResponse == null , exception=' + response.getException());
+    /**
+     * @brief Test Send valid data
+     * @decription Test sending valida data
+     */
+    @isTest
+    static void testSendWithValidData() {
+        ApexMessagePayload payload = setupMailPayload();
 
-	} // end of testSendWithValidData
+        IApexMessageSender sender = new ApexMailMessageSender();
+        payload.attributes.put('Reply', 'replyto@test.com');
+        ApexMessageSendResponse response = sender.send(payload);
 
-	//==============================================================================================
-	// Private Methods
-	//==============================================================================================
-	static ApexMessagePayload setupMailPayload() {
-		ApexMessagePayload payload = new ApexMessagePayload();
+        System.assert(response != null, 'testSendWithValidData , ApexMessageSendResponse == null');
+        System.assert(response.getResponse() != null, 'testSendWithValidData , response.getResponse == null , exception=' + response.getException());
+    } // end of testSendWithValidData
 
-		payload.attributes.put('Recipients', new List<String> {'test@nowhere.com'});
-		payload.attributes.put('CC', new List<String> {'testcc@nowhere.com'});
-		payload.attributes.put('BCC', new List<String> {'testbcc@nowhere.com'});
-		payload.attributes.put('Subject', 'Testing');
-		payload.attributes.put('DisplayName', 'Ms Testing');
-		payload.attributes.put('Body', 'Test Body of Email');
+    //==============================================================================================
+    // Private Methods
+    //==============================================================================================
 
-		return payload;
-	} // end of setupMailPayload
+    static ApexMessagePayload setupMailPayload() {
+        ApexMessagePayload payload = new ApexMessagePayload();
+
+        payload.attributes.put('Recipients', new List<String> {'test@nowhere.com'});
+        payload.attributes.put('CC', new List<String> {'testcc@nowhere.com'});
+        payload.attributes.put('BCC', new List<String> {'testbcc@nowhere.com'});
+        payload.attributes.put('Subject', 'Testing');
+        payload.attributes.put('DisplayName', 'Ms Testing');
+        payload.attributes.put('Body', 'Test Body of Email');
+
+        return payload;
+    } // end of setupMailPayload
+
 }
