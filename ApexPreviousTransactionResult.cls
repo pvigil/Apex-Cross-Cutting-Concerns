@@ -1,5 +1,4 @@
 /**
- *
  * The MIT License (MIT)
  * Copyright (c) 20-April-2016 Bill J. Anderson
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -16,45 +15,51 @@
  * IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
  *
  *
- *
  * @author Salesforce
  * @date 
  * @brief Holder of the last transaction operations
  * @description Holder of the last transaction operations
  * @group Common Layer
- **/
+ */
 public without sharing class ApexPreviousTransactionResult implements IPreviousTransactionResult {
 
-	/**
-	 * @brief last database result
-	 * @description last database result
-	 * @return Database.SaveResult
-	 */
-	List<Database.SaveResult> lastResult = null;
+    /**
+     * @brief last database result
+     * @description last database result
+     * @return Database.SaveResult
+     */
+    List<Database.SaveResult> lastResult = null;
 
-	/**
-	 * @brief ctor
-	 * @description [long description]
-	 * @return [description]
-	 */
-	public ApexPreviousTransactionResult() {
-		this.databaseResult(null);
-	}
-	public ApexPreviousTransactionResult(List<Database.SaveResult> result) {
-		this.databaseResult(result);
-	}
+    /**
+     * @brief ctor
+     * @description [long description]
+     * @return [description]
+     */
+    public ApexPreviousTransactionResult() {
+        this.databaseResult(null);
+    }
 
-	/**
-	 * @brief get last database result
-	 * @description et last database result
-	 * @return  SaveResult
-	 */
-	public List<Database.SaveResult>  databaseResult() { return this.lastResult; }
-	/**
-	 * @brief set last database result
-	 * @description set last database result
-	 * 
-	 * @param result SaveResult
-	 */
-	public void databaseResult(List<Database.SaveResult> result) { this.lastResult = result;}
+    public ApexPreviousTransactionResult(List<Database.SaveResult> result) {
+        this.databaseResult(result);
+    }
+
+    /**
+     * @brief get last database result
+     * @description et last database result
+     * @return  SaveResult
+     */
+    public List<Database.SaveResult> databaseResult() {
+        return this.lastResult;
+    }
+
+    /**
+     * @brief set last database result
+     * @description set last database result
+     * 
+     * @param result SaveResult
+     */
+    public void databaseResult(List<Database.SaveResult> result) {
+        this.lastResult = result;
+    }
+
 } // end of ApexPreviousTransactionResult

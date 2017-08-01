@@ -28,32 +28,42 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * @author Salesforce
+ * @date
+ * @brief
+ * @description
+ * @group Common Layer
  */
 public without sharing class NameValuePair {
 
-	/**
-	 * @brief Getter
-	 * @details Getter
-	 * @return name-value pair
-	 */
-	public Map<String, String> nvp { get; private set;}
-	/**
-	 * @brief ctor
-	 * @details ctor
-	 */
-	public NameValuePair() {
-		this( new Map<String, String>());
-	}
-	/**
-	 * @brief ctor
-	 * @details ctor
-	 * 
-	 * @param nvPair Map<String,String>()
-	 */
-	public NameValuePair(Map<String, String>  nvPair) {
-		if ( nvPair == null ) {
-			nvPair = new Map<String, String>();
-		}
-		this.nvp = nvPair;
-	}
+    /**
+     * @brief Getter
+     * @details Getter
+     * @return name-value pair
+     */
+    public Map<String, String> nvp { get; private set; }
+
+    /**
+     * @brief ctor
+     * @details ctor
+     */
+    public NameValuePair() {
+        this(new Map<String, String>());
+    }
+
+    /**
+     * @brief ctor
+     * @details ctor
+     * 
+     * @param nvPair Map<String,String>()
+     */
+    public NameValuePair(Map<String, String> nvPair) {
+        if ( nvPair == null ) {
+            nvPair = new Map<String, String>();
+        }
+        this.nvp = nvPair;
+    }
+
 }

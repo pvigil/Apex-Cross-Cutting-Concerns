@@ -28,7 +28,7 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *=============================================================================
+ *
  *
  * Encapsulates all behaviour logic relating to the Trigger invocation
  *
@@ -37,69 +37,72 @@
  * and the lennar base class for the domain, then DELETE this class!!!!
  *
  * @group Domain Layer
- **/
+ */
 public class TriggerHelperClass {
 
-	public final static String BeforeInsert = 'before insert';
-	public final static String BeforeUpdate =  'before update';
-	public final static String BeforeDelete = 'before delete' ;
-	public final static String AfterInsert = 'after insert' ;
-	public final static String AfterUpdate =  'after update' ;
-	public final static String AfterDelete =  'after delete'  ;
-	public final static String AfterUndelete =  'after undelete' ;
+    public final static String BeforeInsert = 'before insert';
+    public final static String BeforeUpdate =  'before update';
+    public final static String BeforeDelete = 'before delete' ;
+    public final static String AfterInsert = 'after insert' ;
+    public final static String AfterUpdate =  'after update' ;
+    public final static String AfterDelete =  'after delete'  ;
+    public final static String AfterUndelete =  'after undelete' ;
 
-	private static Map<String, Boolean> triggerAction = new Map<String, Boolean> {
-		BeforeInsert  => true
-		, BeforeUpdate => true
-		, BeforeDelete => true
-		, AfterInsert => true
-		, AfterUpdate  => true
-		, AfterDelete  => true
-		, AfterUndelete => true
-	};
-	/**
-	 * @brief first time the trigger is invoked
-	 * @details first time the trigger is invoked
-	 *
-	 */
-	// @deprecated
-	private static boolean firstRun = true;
-	/**
-	 * @brief Toggles the first run state, first time it is true
-	 * @details Toggles the first run state, first time it is true
-	 * @return Boolean, the last state
-	 */
-	// @deprecated
-	public static Boolean togglerFirstRunState() {
-		Boolean lastState = TriggerHelperClass.firstRun;
-		if ( TriggerHelperClass.firstRun ) {
-			TriggerHelperClass.firstRun = !TriggerHelperClass.firstRun;
-		}
-		return lastState;
-	} // end of togglerFirstRunState
-	/**
-	 * @brief Toggles the first run state, first time it is true
-	 * @details Toggles the first run state, first time it is true
-	 *
-	 * @param action [description]
-	 * @return Boolean, the last state
-	 *
-	 */
-	public static Boolean togglerFirstRunState(String action) {
-		// note, put returns the Previous value at that location
-		return  action == null ? false : TriggerHelperClass.triggerAction.put(action, false);
+    private static Map<String, Boolean> triggerAction = new Map<String, Boolean> {
+        BeforeInsert  => true
+        , BeforeUpdate => true
+        , BeforeDelete => true
+        , AfterInsert => true
+        , AfterUpdate  => true
+        , AfterDelete  => true
+        , AfterUndelete => true
+    };
 
-	} // end of togglerFirstRunState
+    /**
+     * @brief first time the trigger is invoked
+     * @details first time the trigger is invoked
+     *
+     */
+    // @deprecated
+    private static boolean firstRun = true;
 
-	/**
-	 * @brief reset the trigger check
-	 * @details reset the trigger check
-	 */
-	public static void reset() {
+    /**
+     * @brief Toggles the first run state, first time it is true
+     * @details Toggles the first run state, first time it is true
+     * @return Boolean, the last state
+     */
+    // @deprecated
+    public static Boolean togglerFirstRunState() {
+        Boolean lastState = TriggerHelperClass.firstRun;
 
-		for (String action : TriggerHelperClass.triggerAction.keyset() ) {
-			TriggerHelperClass.triggerAction.put(action, true);
+        if ( TriggerHelperClass.firstRun ) {
+            TriggerHelperClass.firstRun = !TriggerHelperClass.firstRun;
+        }
 
-		}
-	} // end of reset
+        return lastState;
+    } // end of togglerFirstRunState
+
+    /**
+     * @brief Toggles the first run state, first time it is true
+     * @details Toggles the first run state, first time it is true
+     *
+     * @param action [description]
+     * @return Boolean, the last state
+     *
+     */
+    public static Boolean togglerFirstRunState(String action) {
+        // note, put returns the Previous value at that location
+        return action == null ? false : TriggerHelperClass.triggerAction.put(action, false);
+    } // end of togglerFirstRunState
+
+    /**
+     * @brief reset the trigger check
+     * @details reset the trigger check
+     */
+    public static void reset() {
+        for (String action : TriggerHelperClass.triggerAction.keyset()) {
+            TriggerHelperClass.triggerAction.put(action, true);
+        }
+    } // end of reset
+
 } // end of TriggerHelperClass

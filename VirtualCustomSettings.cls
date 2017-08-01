@@ -29,80 +29,80 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
+ *
  * Encapsulates all behaviour logic relating to the custom settings
  *
  * For more guidelines and details see
- *   https://developer.salesforce.com/page/Apex_Enterprise_Patterns_-_Domain_Layer
+ * https://developer.salesforce.com/page/Apex_Enterprise_Patterns_-_Domain_Layer
  * @group Domain Layer
- **/
+ */
 public virtual class VirtualCustomSettings implements IConfigurationProvider {
 
+    // Explicit no argument constructor
+    public VirtualCustomSettings() {
 
-	// Explicit no argument constructor
-	public VirtualCustomSettings() {
-	}
+    }
 
-	/**
-	* @brief load configuration
-	* @description load the configuration
-	* @return true, if the configuration was loaded
-	*/
-	public virtual Boolean load() {
-		return true;
-	} // end of load
-	/**
-	 * @brief get a item (must be cast)
-	 * @description get a value based on the name from the <name,value> pair
-	 *
-	 * @param name key name
-	 * @return object ( must be cast appropriately)
-	 */
-	public virtual Object get(String name) {
-		return CustomSettings.getEntity(name);
-	} // end of get
+    /**
+     * @brief load configuration
+     * @description load the configuration
+     * @return true, if the configuration was loaded
+     */
+    public virtual Boolean load() {
+        return true;
+    } // end of load
 
+    /**
+     * @brief get a item (must be cast)
+     * @description get a value based on the name from the <name,value> pair
+     *
+     * @param name key name
+     * @return object ( must be cast appropriately)
+     */
+    public virtual Object get(String name) {
+        return CustomSettings.getEntity(name);
+    } // end of get
 
-	/**
-	 * @brief is All set for the data warehouse
-	 * @description [long description]
-	 * @return [description]
-	 */
-	public virtual Boolean isDataWareHouseTriggerOn() {
-		return  CustomSettings.isDataWareHouseTriggerOn();
-	} // end of isDataWareHouseTriggerOn
+    /**
+     * @brief is All set for the data warehouse
+     * @description [long description]
+     * @return [description]
+     */
+    public virtual Boolean isDataWareHouseTriggerOn() {
+        return CustomSettings.isDataWareHouseTriggerOn();
+    } // end of isDataWareHouseTriggerOn
 
+    /**
+     * @brief is the trigger enabled
+     * @description is the trigger enabled
+     *
+     * @param objectName String , name of object/class name
+     * @return true if enabled
+     */
+    public virtual Boolean isTriggerEnabled(String objectName) {
+        return CustomSettings.isTriggerEnabled(objectName);
+    } // end of isTriggerEnabled
 
-	/**
-	 * @brief is the trigger enabled
-	 * @description is the trigger enabled
-	 *
-	 * @param objectName String , name of object/class name
-	 * @return true if enabled
-	 */
-	public virtual Boolean isTriggerEnabled(String objectName) {
-		return  CustomSettings.isTriggerEnabled(objectName);
-	} // end of isTriggerEnabled
+    /**
+     * @brief Data caching on
+     * @description Data caching on
+     *
+     * @param objectName String
+     * @return DataCaching__c
+     */
+    public virtual DataCaching__c caching (String objectName) {
+        return CustomSettings.caching(objectName);
+    } // end of caching
 
+    /**
+     * @brief Divisoion Code
+     * @description Division Code
+     * 
+     * @param divisionCode incoming Division code
+     * @return True, if excluded
+     */
+    public virtual Boolean divisionIsExcluded(String divisionCode) {
+        return CustomSettings.divisionIsExcluded(divisionCode);
+    } // end of divisionIsExcluded
 
-	/**
-	 * @brief Data caching on
-	 * @description Data caching on
-	 *
-	 * @param objectName String
-	 * @return DataCaching__c
-	 */
-	public virtual DataCaching__c caching (String objectName) {
-		return  CustomSettings.caching(objectName);
-	} // end of caching
-
-	/**
-	 * @brief Divisoion Code
-	 * @description Division Code
-	 * 
-	 * @param divisionCode incoming Division code
-	 * @return True, if excluded
-	 */
-	public virtual Boolean divisionIsExcluded(String divisionCode) {
-		return CustomSettings.divisionIsExcluded(divisionCode);
-	} // end of divisionIsExcluded
 } // end of VirtualCustomSettings
