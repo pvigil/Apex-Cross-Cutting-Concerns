@@ -204,8 +204,11 @@ global virtual class ApexLogger implements ILogger {
         String result = ApexUtilities.toString(message);
         // remember last value
         this.setLastMessage(level, result);
-        // write it
-        system.debug(level, result);
+        // print out only in sandbox
+		if ( ApexUtilities.isSandbox() ) {
+			// write it
+			system.debug(level, result);
+		}
     } // end of write
 
     /**
