@@ -67,11 +67,22 @@ public virtual with sharing class ApexUtilities {
     // simple mechanism to cache last id
     static String lastProfileName = null;
     static Id lastProfileId = null;
+    // are we executing in a sandbox
+    static Boolean isSandboxBool = [SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox;
+
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Public Methods
     ////////////////////////////////////////////////////////////////////////////////
 
+    /**
+	 * @brief is sandbox
+	 * @details is sandbox
+	 * @return true, if sandbox
+	 */
+	public static Boolean IsSandbox() {
+		return isSandboxBool;
+	}
     /**
      * @brief Get a Method name from 'this'
      * @description Method Name of the caller
