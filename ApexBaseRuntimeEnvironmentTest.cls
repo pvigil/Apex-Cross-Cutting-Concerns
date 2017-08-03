@@ -38,7 +38,7 @@
 @isTest
 private class ApexBaseRuntimeEnvironmentTest {
 
-    private static IApexRunEnvironment theEnvironment = null;
+    private static IApexRunEnvironment theEnvironment;
 
     //
     // test equals for validity

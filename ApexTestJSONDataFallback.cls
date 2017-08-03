@@ -47,7 +47,7 @@ public class ApexTestJSONDataFallback implements IFallbackResources {
     private static final String DefaultStaticResource = '{' +
             '"SoftAssert" : "on" ' +
             '}';
-    private String defaultResource = null;
+    private String defaultResource;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Ctor
@@ -72,7 +72,7 @@ public class ApexTestJSONDataFallback implements IFallbackResources {
     public ApexTestJSONDataFallback(String defaultValue) {
         this.defaultResource = defaultValue;
 
-        if ( this.defaultResource == null) {
+        if ( String.isBlank(this.defaultResource) ) {
             this.defaultResource = ApexTestJSONDataFallback.DefaultStaticResource;
         }
     } // end of ctor
@@ -101,7 +101,7 @@ public class ApexTestJSONDataFallback implements IFallbackResources {
      * @return get fallback resource as a Map<String,String>
      */
     public Map<String, String> toMap() {
-        Map<String, String> dataPair = null;
+        Map<String, String> dataPair;
 
         try {
             TestEnvironmentSingleton.getInstance().logger().write('\n*** USING Fallback Resources in ApexTestJSONDataFallback.toMap : Salesforce StaticResource not found "' + ApexTestUtilities.CustomResourceNameInSalesforce + '" ***');

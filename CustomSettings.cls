@@ -45,7 +45,7 @@ public without sharing class CustomSettings implements IConfigurationProvider {
     /**
      * Divisions to ignore
      */
-    private static String divisionsToIgnore = null;
+    private static String divisionsToIgnore;
 
     /**
      * List of supported objects (to be deprecated)
@@ -92,7 +92,7 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      * @return [description]
      */
     public static Boolean isDataWareHouseTriggerOn() {
-        return isTriggerEnabled(ApexConstants.All_s);
+        return CustomSettings.isTriggerEnabled(ApexConstants.All_s);
     } // end of isDataWareHouseTriggerOn
 
     /**
@@ -106,9 +106,9 @@ public without sharing class CustomSettings implements IConfigurationProvider {
         Boolean dataSyncOn = false;
 
         // is the data warehouse trigger sink on
-        if ( objectName != null && supportedSFObjects.contains(objectName) ) {
+        if ( String.isNotBlank(objectName) && supportedSFObjects.contains(objectName) ) {
             DWHouseSyncTrigger__c result = CustomSettings.findTriggerSync(objectName);
-            if ( null != result ) {
+            if ( result != null) {
                 dataSyncOn = result.Data_Sync_On__c;
             }
         }
@@ -124,10 +124,10 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      * @return DataCaching__c
      */
     public static DataCaching__c caching (String objectName) {
-        DataCaching__c result = null;
+        DataCaching__c result;
 
         // is the data warehouse trigger sink on
-        if ( objectName != null && supportedSFObjects.contains(objectName) ) {
+        if ( String.isNotBlank(objectName) && supportedSFObjects.contains(objectName) ) {
             result = CustomSettings.findCache(objectName);
         } else {
             result = new DataCaching__c();
@@ -165,22 +165,19 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      * @return True, if excluded
      */
     public static Boolean divisionIsExcluded(String divisionCode) {
-        Boolean results = false;
+        Boolean result = false;
 
         try {
             String ignoreDivisions = CustomSettings.getDivisionsToIgnore();
 
-            if ( divisionCode != null
-                    && divisionCode.length() > 0
-                    && divisionsToIgnore != null
-                    && divisionsToIgnore.length() > 0 ) {
-                results = divisionsToIgnore.containsIgnoreCase(divisionCode);
+            if ( String.isNotBlank(divisionCode) && String.isNotBlank(ignoreDivisions) ) {
+                result = ignoreDivisions.containsIgnoreCase(divisionCode);
             }
         } catch (Exception excp) {
             ApexRunEnvironmentSingleton.getInstance().exceptionHandler().process(excp);
         }
 
-        return results;
+        return result;
     } // end of divisionIsExcluded
 
     /**
@@ -207,9 +204,9 @@ public without sharing class CustomSettings implements IConfigurationProvider {
     public static Object getEntity(String value) {
         String ns = ApexUtilities.getNamespace(value);
         String section = ApexUtilities.getSection(value);
-        Object result = null;
+        Object result;
 
-        if ( ns != null && section != null ) {
+        if ( String.isNotBlank(ns) && String.isNotBlank(section) ) {
             if ( ns.equals(ApexConstants.DataCachingCS) ) {
                 result = CustomSettings.caching(section);
             } else if ( ns.equals(ApexConstants.DataWareHouseTriggerCS) ) {
@@ -233,7 +230,7 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      */
     @TestVisible
     private static DWHouseSyncTrigger__c findTriggerSync(String objectName) {
-        DWHouseSyncTrigger__c result = null;
+        DWHouseSyncTrigger__c result;
 
         try {
             result = DWHouseSyncTrigger__c.getAll().get(objectName);
@@ -253,7 +250,7 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      */
     @TestVisible
     private static DataCaching__c findCache(String objectName) {
-        DataCaching__c result = null;
+        DataCaching__c result;
 
         try {
             result = DataCaching__c.getAll().get(objectName);
@@ -271,11 +268,11 @@ public without sharing class CustomSettings implements IConfigurationProvider {
      */
     @TestVisible
     private static Migration_Global_Setting__c findMigrationSetting() {
-        Migration_Global_Setting__c result = null;
+        Migration_Global_Setting__c result;
 
         try {
             // get the Migration_Global_Setting__c based on the profile id
-            Id profileId = userinfo.getProfileId();
+            Id profileId = UserInfo.getProfileId();
             // get the row
             result = Migration_Global_Setting__c.getValues(profileId);
             // if not present, get the org defaults

@@ -41,20 +41,20 @@
 public class TriggerHelperClass {
 
     public final static String BeforeInsert = 'before insert';
-    public final static String BeforeUpdate =  'before update';
-    public final static String BeforeDelete = 'before delete' ;
-    public final static String AfterInsert = 'after insert' ;
-    public final static String AfterUpdate =  'after update' ;
-    public final static String AfterDelete =  'after delete'  ;
-    public final static String AfterUndelete =  'after undelete' ;
+    public final static String BeforeUpdate = 'before update';
+    public final static String BeforeDelete = 'before delete';
+    public final static String AfterInsert = 'after insert';
+    public final static String AfterUpdate = 'after update';
+    public final static String AfterDelete = 'after delete';
+    public final static String AfterUndelete = 'after undelete';
 
     private static Map<String, Boolean> triggerAction = new Map<String, Boolean> {
-        BeforeInsert  => true
+        BeforeInsert => true
         , BeforeUpdate => true
         , BeforeDelete => true
         , AfterInsert => true
-        , AfterUpdate  => true
-        , AfterDelete  => true
+        , AfterUpdate => true
+        , AfterDelete => true
         , AfterUndelete => true
     };
 
@@ -92,7 +92,7 @@ public class TriggerHelperClass {
      */
     public static Boolean togglerFirstRunState(String action) {
         // note, put returns the Previous value at that location
-        return action == null ? false : TriggerHelperClass.triggerAction.put(action, false);
+        return String.isBlank(action) ? false : TriggerHelperClass.triggerAction.put(action, false);
     } // end of togglerFirstRunState
 
     /**

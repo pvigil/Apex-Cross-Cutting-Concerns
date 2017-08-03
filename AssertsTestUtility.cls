@@ -214,7 +214,7 @@ public with sharing class AssertsTestUtility {
 
         try {
             result = String.valueOf(TestEnvironmentSingleton.getInstance().provider().get(method)) == ApexTestUtilities.AttributeIsOn;
-            String currentMethod = method == null ? '' : method;
+            String currentMethod = String.isBlank(method) ? '' : method;
             String isEnabledMsg = (result) ? ' enabled' : ' disabled' ;
             String message = 'Method (' + currentMethod + ') is ' + isEnabledMsg;
 
@@ -316,10 +316,10 @@ public with sharing class AssertsTestUtility {
     private static Boolean testForStrings(Object lhs, Object rhs, Boolean expected, String message, Boolean isNotEqual) {
         Boolean areStrings = lhs instanceof String && rhs instanceof String;
 
-        if ( areStrings == true ) {
+        if ( areStrings ) {
             String sRhs = (String)rhs;
             String sLhs = (String)lhs;
-            Boolean areNull =  sLhs == null && sRhs == null ;
+            Boolean areNull = sLhs == null && sRhs == null ;
 
             if ( isNotEqual ) {
                 if ( areNull ) {

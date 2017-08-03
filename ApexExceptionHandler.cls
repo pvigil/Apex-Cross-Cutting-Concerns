@@ -148,10 +148,9 @@ public virtual without sharing class ApexExceptionHandler implements IApexExcept
      */
     protected virtual String formatExceptionMessage(Exception excp, ApexExceptionPolicyEnum policy) {
         String message = '';
-        IDataFormat formatter = null;
 
         try {
-            formatter = (IDataFormat)ApexRunEnvironmentSingleton.getInstance().objectFactory().create(ApexConstants.ExceptionFormatter);
+            IDataFormat formatter = (IDataFormat)ApexRunEnvironmentSingleton.getInstance().objectFactory().create(ApexConstants.ExceptionFormatter);
             message = (String)formatter.format( excp, policy);
         } catch (Exception ignoreException) {}
 

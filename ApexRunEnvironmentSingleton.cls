@@ -43,7 +43,7 @@ public with sharing class ApexRunEnvironmentSingleton extends ApexBaseRuntimeEnv
     ////////////////////////////////////////////////////////////////////////////////
 
     // our run environment
-    private static ApexRunEnvironmentSingleton classInstance = null;
+    private static ApexRunEnvironmentSingleton classInstance;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Static Initializer

@@ -86,16 +86,16 @@ public without sharing class ObjectJsonChunking {
             numOfChunks--;
             results = '';
 
-            if ( ids != null && isDelete && ids.size() > 0 ) {
+            if ( ids != null && isDelete && !ids.isEmtpy() ) {
                 List<Id> returnedObj = this.chunkIdListBy(ids, startAt, endAt, isAll);
                 results = JSON.serialize(returnedObj);
-            } else if ( !isDelete && objs.size() > 0 ) {
+            } else if ( !isDelete && !objs.isEmtpy() ) {
                 List<SObject> returnedObj = this.chunkSObjectListBy(objs, startAt, endAt, isAll);
                 results = JSON.serialize(returnedObj);
             }
 
             // any data serialize
-            if ( results != null && results.length() > 0 ) {
+            if ( String.isNotBlank(results) ) {
                 chunks.put(startChunk, results);
                 startChunk++;
             }
@@ -123,7 +123,7 @@ public without sharing class ObjectJsonChunking {
      * @return [description]
      */
     private List<SObject> chunkSObjectListBy(List<SObject>objs, Integer startAt, Integer endAt, Integer chunk) {
-        List<SObject> newList = null;
+        List<SObject> newList;
 
         if ( chunk == 0 ) {
             return objs;
@@ -149,7 +149,7 @@ public without sharing class ObjectJsonChunking {
      * @return [description]
      */
     private List<Id> chunkIdListBy(List<Id>objs, Integer startAt, Integer endAt, Integer chunk) {
-        List<Id> newList = null;
+        List<Id> newList;
 
         if ( chunk == 0 ) {
             return objs;

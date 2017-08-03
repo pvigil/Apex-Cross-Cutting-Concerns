@@ -42,7 +42,7 @@ public with sharing class TestEnvironmentSingleton extends ApexBaseRuntimeEnviro
     ////////////////////////////////////////////////////////////////////////////////
 
     // our test environment
-    private static TestEnvironmentSingleton classInstance ;
+    private static TestEnvironmentSingleton classInstance;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Static Initializer
@@ -89,7 +89,7 @@ public with sharing class TestEnvironmentSingleton extends ApexBaseRuntimeEnviro
     public override IApexFactory objectFactory() {
         if ( this.theFactory == null ) {
             // default test factory, subject to change
-            super.objectFactory(  new ApexTestObjectFactory());
+            super.objectFactory(new ApexTestObjectFactory());
         }
 
         return this.theFactory;
@@ -103,7 +103,7 @@ public with sharing class TestEnvironmentSingleton extends ApexBaseRuntimeEnviro
     public override IConfigurationProvider provider() {
         if ( this.theProvider == null ) {
             // this is the default provider -- subject to change
-            super.provider( (IConfigurationProvider) this.objectFactory().create(ApexConstants.ConfigurationResource));
+            super.provider((IConfigurationProvider) this.objectFactory().create(ApexConstants.ConfigurationResource));
         }
 
         return this.theProvider;

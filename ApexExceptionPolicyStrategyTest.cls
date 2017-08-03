@@ -89,7 +89,7 @@ private class ApexExceptionPolicyStrategyTest {
      * @return NullPointerException
      */
     private static NullPointerException getException() {
-        NullPointerException returned = null;
+        NullPointerException returned;
 
         try {
             String myNull = null;

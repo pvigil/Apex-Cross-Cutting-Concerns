@@ -42,7 +42,7 @@ public virtual with sharing class ApexUtilities {
     /// Data Members
     ////////////////////////////////////////////////////////////////////////////////
 
-    private static  Map<String, String> sObjectInformation = new Map<String, String> {
+    private static Map<String, String> sObjectInformation = new Map<String, String> {
         'Account' => 'Name'
         , 'Attached_Documents__c' => 'Name'
         , 'Business_Unit_User__c' => 'Name'
@@ -65,24 +65,24 @@ public virtual with sharing class ApexUtilities {
     };
 
     // simple mechanism to cache last id
-    static String lastProfileName = null;
-    static Id lastProfileId = null;
+    static String lastProfileName;
+    static Id lastProfileId;
     // are we executing in a sandbox
     static Boolean isSandboxBool = [SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox;
-
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Public Methods
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-	 * @brief is sandbox
-	 * @details is sandbox
-	 * @return true, if sandbox
-	 */
-	public static Boolean IsSandbox() {
-		return isSandboxBool;
-	}
+     * @brief is sandbox
+     * @details is sandbox
+     * @return true, if sandbox
+     */
+    public static Boolean IsSandbox() {
+        return isSandboxBool;
+    }
+
     /**
      * @brief Get a Method name from 'this'
      * @description Method Name of the caller
@@ -111,7 +111,7 @@ public virtual with sharing class ApexUtilities {
      * @return String - name of the sobject
      */
     public static String getSobjectName(SObject mySobject) {
-        return mySobject != null ? mySobject.getsObjectType().getDescribe().getName() : ApexConstants.EmptyString;
+        return String.isNotBlank(mySobject) ? mySobject.getsObjectType().getDescribe().getName() : ApexConstants.EmptyString;
     } // end of getSobjectName
 
     /**
@@ -131,7 +131,7 @@ public virtual with sharing class ApexUtilities {
             result = ApexUtilities.iterateOverFieldNamesInSObject(sobj, fieldName);
         }
 
-        return result == null ? ApexConstants.EmptyString : result;
+        return String.isBlank(result) ? ApexConstants.EmptyString : result;
     } // end of getFieldNameFromSObjectForMigrationCheck
 
     /**
@@ -141,8 +141,8 @@ public virtual with sharing class ApexUtilities {
      * @param payload the ApexMessagePayload
      * @return Attempt to get the underlying message payload type by converting; otherwise, null
      */
-    public static NameValueObjectPair getNameValueFromPayload( ApexMessagePayload payload) {
-        NameValueObjectPair nvop = null;
+    public static NameValueObjectPair getNameValueFromPayload(ApexMessagePayload payload) {
+        NameValueObjectPair nvop;
 
         if ( payload != null && payload.payload != null ) {
             nvop = (NameValueObjectPair)payload.payload;
@@ -161,8 +161,8 @@ public virtual with sharing class ApexUtilities {
      * @return String -- 'ns.section'
      */
     public static String formProviderNameAccess(String namespace, String section) {
-        String ns = namespace == null ? ApexConstants.EmptyString : namespace;
-        String sct = section == null ? ApexConstants.EmptyString : section;
+        String ns = String.isBlank(namespace) ? ApexConstants.EmptyString : namespace;
+        String sct = String.isBlank(section) ? ApexConstants.EmptyString : section;
 
         return ns + ApexConstants.ColonDelimiter + sct;
     } // end of formProviderNameAccess
@@ -212,9 +212,9 @@ public virtual with sharing class ApexUtilities {
      * @return [description]
      */
     public static String getSection(String value, String delimiter, Integer index) {
-        String result = null;
+        String result;
 
-        if ( !String.isBlank(value) ) {
+        if ( String.isNotBlank(value) ) {
             List<String> items = value.split(delimiter);
             if ( items.size() > index ) {
                 result = items[index];
@@ -260,7 +260,7 @@ public virtual with sharing class ApexUtilities {
             result = String.valueOf(obj);
         }
 
-        return result == null ? ApexConstants.EmptyString : result;
+        return String.isBlank(result) ? ApexConstants.EmptyString : result;
     } // end of toString
 
     /**
@@ -331,7 +331,7 @@ public virtual with sharing class ApexUtilities {
             lastProfileId = profileId;
         }
 
-        return lastProfileName == null ? ApexConstants.EmptyString : lastProfileName ;
+        return String.isBlank(lastProfileName) ? ApexConstants.EmptyString : lastProfileName ;
     } // end of userProfileName
 
     /**
@@ -355,9 +355,10 @@ public virtual with sharing class ApexUtilities {
     public static String iterateOverFieldNamesInSObject(SObject sobj, String fieldName) {
         String result = ApexConstants.EmptyString;
 
-        if ( fieldName != null && sobj != null ) {
+        if ( String.isNotBlank(fieldName) && sobj != null ) {
             List<String> fields = fieldName.split(ApexConstants.CommaDelimiter);
             Integer sz = fields.size();
+
             for (String item : fields ) {
                 // get the name of the sobject, if any
                 result += ApexUtilities.getFieldFromSObjectSafe(sobj, item);
@@ -380,7 +381,7 @@ public virtual with sharing class ApexUtilities {
      * @return [description]
      */
     public static Object getSubFieldValueFromSObject(SObject sObj, String field) {
-        Object results = null;
+        Object results;
 
         try {
             if ( sObj != null ) {

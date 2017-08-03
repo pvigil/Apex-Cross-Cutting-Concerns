@@ -99,7 +99,7 @@ private class ApexCacheTest {
         // assign
         ICache mcache = new ApexCache();
         Set<String> keys = new Set<String>();
-        Set<String> results = null;
+        Set<String> results;
         String key;
         // act
         for (Integer inx = 0; inx < 100; inx++) {
@@ -122,7 +122,7 @@ private class ApexCacheTest {
     static void Testcontains() {
         // assign
         ICache mcache = new ApexCache();
-        String key =  ApexUtilities.newGuid();
+        String key = ApexUtilities.newGuid();
 
         // act
         mcache.put(key, 'key');

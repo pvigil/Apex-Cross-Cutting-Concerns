@@ -58,8 +58,8 @@ public without sharing class HttpUtility implements IHttpUtility {
      * Private Properties (but visible to the test)
      */
     @TestVisible private Integer failuresWebServicesCall = 0;
-    @TestVisible private Http http = null;
-    @TestVisible private HttpRequest request = null;
+    @TestVisible private Http http;
+    @TestVisible private HttpRequest request;
 
     /*********************************************************************************************************
      * Constructor
@@ -125,7 +125,6 @@ public without sharing class HttpUtility implements IHttpUtility {
         if ( this.request == null ) {
             try {
                 this.request = new HttpRequest();
-
                 // Need to check whether to make method type and content type as configurable.
                 this.request.setMethod(this.methodProperty);
                 this.request.setEndpoint(this.endPointProperty);
@@ -203,7 +202,7 @@ public without sharing class HttpUtility implements IHttpUtility {
     */
     @TestVisible private Boolean httpCallOut() {
         Boolean success = false;
-        ResponseWrapper rWrap = null;
+        ResponseWrapper rWrap;
 
         this.failuresWebServicesCall++;
 

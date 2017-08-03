@@ -135,7 +135,7 @@ public with sharing class ApexTestUtilities extends ApexUtilities {
     //
     public static Boolean isCache(Object obj) {
         try {
-            ICache  handler = (ICache)obj;
+            ICache handler = (ICache)obj;
 
             if ( handler != null ) {
                 return true;

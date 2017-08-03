@@ -46,7 +46,7 @@ global virtual class ApexLogger implements ILogger {
     /**
      * Last message written
      */
-    private String theLastMessage = null;
+    private String theLastMessage;
 
     /**
      * @brief log level to use for 'write'
@@ -205,10 +205,10 @@ global virtual class ApexLogger implements ILogger {
         // remember last value
         this.setLastMessage(level, result);
         // print out only in sandbox
-		if ( ApexUtilities.isSandbox() ) {
-			// write it
-			system.debug(level, result);
-		}
+        if ( ApexUtilities.isSandbox() ) {
+            // write it
+            system.debug(level, result);
+        }
     } // end of write
 
     /**
@@ -219,7 +219,7 @@ global virtual class ApexLogger implements ILogger {
      * @param message the message
      */
     protected virtual void setLastMessage(LoggingLevel level, String message) {
-        String msg = message != null ? message : '';
+        String msg = String.isNotBlank(message) ? message : '';
         this.theLastMessage = String.format('{0} : {1}', new String[]{ String.valueOf(level), msg });
     } // end of setLastMessage
 

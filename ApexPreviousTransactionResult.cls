@@ -28,7 +28,7 @@ public without sharing class ApexPreviousTransactionResult implements IPreviousT
      * @description last database result
      * @return Database.SaveResult
      */
-    List<Database.SaveResult> lastResult = null;
+    List<Database.SaveResult> lastResult;
 
     /**
      * @brief ctor

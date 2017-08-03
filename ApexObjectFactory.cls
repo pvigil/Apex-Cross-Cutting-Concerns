@@ -43,7 +43,7 @@ public virtual with sharing class ApexObjectFactory implements IApexFactory {
     ////////////////////////////////////////////////////////////////////////////////
 
     // the collection of object creation
-    private Map<String, Type> theObjectCollection = null;
+    private Map<String, Type> theObjectCollection;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Ctors
@@ -147,7 +147,7 @@ public virtual with sharing class ApexObjectFactory implements IApexFactory {
      */
     protected virtual void addToCollection(String name, Type classType) {
         // valid data
-        if ( name != null && classType != null ) {
+        if ( String.isNotBlank(name) && classType != null ) {
             // create the collection, if not already present
             if ( this.theObjectCollection == null ) {
                 this.theObjectCollection = new Map<String, Type>();
@@ -169,9 +169,9 @@ public virtual with sharing class ApexObjectFactory implements IApexFactory {
      * @return object type
      */
     protected virtual Type findTypeByName(String name) {
-        Type objType = null;
+        Type objType;
 
-        if ( name != null ) {
+        if ( String.isNotBlank(name) ) {
             objType = Type.forName(name);
             if ( objType == null ) {
                 objType = Type.forName('', name);
@@ -191,9 +191,9 @@ public virtual with sharing class ApexObjectFactory implements IApexFactory {
      * @return [description]
      */
     protected virtual Object createFromType(Type foundType, String name) {
-        Object result = null;
+        Object result;
 
-        if ( foundType == null && name != null ) {
+        if ( foundType == null && String.isNotBlank(name) ) {
             foundType = this.theObjectCollection.get( name);
         }
         // do we know what to create

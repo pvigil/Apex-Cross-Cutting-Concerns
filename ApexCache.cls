@@ -55,9 +55,9 @@ public virtual without sharing class ApexCache implements ICache {
     private String cacheNamespace = CACHE_NS;
     private String cachePartition = CACHE_PARTITON;
 
-    private String orgPartitionName = null;
+    private String orgPartitionName;
     // Our Org partition object
-    private Cache.OrgPartition orgPartition = null;
+    private Cache.OrgPartition orgPartition;
     // is cached enabled
     private Boolean cacheEnabled = true;
     // is the parition available ( already created in Org)
@@ -134,9 +134,9 @@ public virtual without sharing class ApexCache implements ICache {
      * @return Object
      */
     public Object get(String key) {
-        Object results = null;
+        Object results;
 
-        if ( key != null && this.cacheIsAvailable ) {
+        if ( String.isNotBlank(key) && this.cacheIsAvailable ) {
             results = this.getPartition().get(key);
         }
 
@@ -151,7 +151,7 @@ public virtual without sharing class ApexCache implements ICache {
     public Boolean contains(String key) {
         Boolean results = false;
 
-        if ( key != null && this.cacheIsAvailable ) {
+        if ( String.isNotBlank(key) && this.cacheIsAvailable ) {
             results = this.getPartition().contains(key);
         }
 
@@ -164,7 +164,7 @@ public virtual without sharing class ApexCache implements ICache {
      * @return Boolean
      */
     public Set<String> getKeys() {
-        Set<String> data = null;
+        Set<String> data;
 
         if ( this.cacheIsAvailable ) {
             data = this.getPartition().getKeys();
@@ -191,7 +191,7 @@ public virtual without sharing class ApexCache implements ICache {
      * @param ttlSecstime to live in seconds (max. in 8 hrs == 28,800 secs - min is 300 secs) MAX_TTL_SECS
      */
     public void put(String key, Object value, Integer ttlSecs) {
-        if ( key != null && this.cacheIsAvailable ) {
+        if ( String.isNotBlank(key) && this.cacheIsAvailable ) {
             Integer ttl = ttlSecs < DEFAULT_MIN_TTL_IN_SECS ? DEFAULT_MIN_TTL_IN_SECS : ttlSecs;
             this.getPartition().put(key, value);//, ttl, Cache.Visibility.ALL, true);
         }
@@ -207,7 +207,7 @@ public virtual without sharing class ApexCache implements ICache {
     public Boolean remove(String key) {
         Boolean results = false;
 
-        if ( key != null && this.cacheIsAvailable ) {
+        if ( String.isNotBlank(key) && this.cacheIsAvailable ) {
             results = this.getPartition().remove(key);
         }
 
@@ -232,6 +232,7 @@ public virtual without sharing class ApexCache implements ICache {
                 ApexRunEnvironmentSingleton.getInstance().exceptionHandler().process(excp);
             }
         }
+
         return this.orgPartition;
     } // end of getPartition
 

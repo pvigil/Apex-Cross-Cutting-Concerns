@@ -63,7 +63,7 @@ public class ErrorLogClass {
      * @return string id of record
      */
     public static string insertError(Error_Log__c record) {
-        String id = null;
+        String id;
 
         try {
             insert record;

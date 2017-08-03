@@ -43,7 +43,7 @@ public without sharing abstract class ApexBaseMessageSender implements IApexMess
     ////////////////////////////////////////////////////////////////////////////////
     /// Data Members
     ////////////////////////////////////////////////////////////////////////////////
-    protected ApexApplicationException sendException = null;
+    protected ApexApplicationException sendException;
 
     //
     // default ctor
@@ -164,7 +164,7 @@ public without sharing abstract class ApexBaseMessageSender implements IApexMess
             , String index
             , String errorMesg
             , Boolean ignoreException) {
-        Object results = null;
+        Object results;
 
         try {
             if ( messagePayload != null && this.sendException == null && messagePayload.attributes != null ) {

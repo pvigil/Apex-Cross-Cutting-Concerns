@@ -42,9 +42,13 @@ public class ConfigurationTestProvider implements IConfigurationProvider {
     ////////////////////////////////////////////////////////////////////////////////
 
     // our static resource
-    private static final List<StaticResource> staticResources = [SELECT Body FROM StaticResource WHERE Name = 'TestUtilityData' LIMIT 1];
+    private static final List<StaticResource> staticResources = [
+        SELECT Body
+        FROM StaticResource
+        WHERE Name = 'TestUtilityData' LIMIT 1
+        ];
     // our class used to map name-value pairs
-    private static StaticTestDataJSON mapping = null;
+    private static StaticTestDataJSON mapping;
 
     ////////////////////////////////////////////////////////////////////////////////
     /// Ctor
@@ -69,7 +73,7 @@ public class ConfigurationTestProvider implements IConfigurationProvider {
      */
     public Boolean load() {
         if ( mapping == null ) {
-            if ( staticResources.size() == 0 ) {
+            if ( staticResources.isEmpty() ) {
                 ConfigurationTestProvider.mapping = this.getFallbackResource();
             } else {
                 ConfigurationTestProvider.mapping = (StaticTestDataJSON) JSON.deserialize(staticResources[0].Body.toString()
@@ -85,7 +89,7 @@ public class ConfigurationTestProvider implements IConfigurationProvider {
      *              the tests and soft-asserts.
      *
      */
-    public  Object get( String name) {
+    public Object get( String name) {
         if ( !this.load() ) {
             return null;
         }
@@ -114,7 +118,7 @@ public class ConfigurationTestProvider implements IConfigurationProvider {
      * @return StaticTestDataJSON
      */
     private StaticTestDataJSON getFallbackResource() {
-        StaticTestDataJSON resource = null;
+        StaticTestDataJSON resource;
 
         try {
             resource = new StaticTestDataJSON();

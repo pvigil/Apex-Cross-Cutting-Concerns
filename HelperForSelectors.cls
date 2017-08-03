@@ -47,7 +47,7 @@ public without sharing class HelperForSelectors {
      * @return String
      */
     public static String makeSetCondition(String byString, String setName) {
-        return byString != null ? byString + ' in :' + setName : 'Id in :idSet';
+        return String.isNotBlank(byString) ? byString + ' in :' + setName : 'Id in :idSet';
     } // end of makeSetCondition
 
     /**
@@ -60,7 +60,7 @@ public without sharing class HelperForSelectors {
      * @return [description]
      */
     public static String verifyCondition(String byString, String setName, Set<String> stringIds) {
-        if ( stringIds == null || stringIds.size() == 0 ) {
+        if ( stringIds == null || stringIds.isEmpty() ) {
             return null;
         }
 
@@ -77,11 +77,11 @@ public without sharing class HelperForSelectors {
      * @return [description]
      */
     public static String makeCompondCondition(String srcString1, String srcString2, String compound) {
-        if ( srcString1 == null  && srcString2 != null ) {
+        if ( String.isBlank(srcString1) && String.isNotBlank(srcString2) ) {
             return srcString2;
-        } else if ( srcString2 == null && srcString1 != null ) {
+        } else if ( String.isBlank(srcString2) && String.isNotBlank(srcString1) ) {
             return srcString1;
-        } else if ( srcString2 == null && srcString1 == null ) {
+        } else if ( String.isBlank(srcString2) && String.isBlank(srcString1) ) {
             return '';
         }
 

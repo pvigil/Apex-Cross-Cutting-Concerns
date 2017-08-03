@@ -60,7 +60,7 @@ public class ApexLabelManager {
      * @return the value of the label in the system
      */
     public static string getLabel(String labelName) {
-        String result = null;
+        String result;
 
         try {
             // ARGH! need to find a dynamic way!
@@ -84,7 +84,7 @@ public class ApexLabelManager {
      * @return [description]
      */
     public static string formatLabelString(String placeholder, List<String> valueFillers) {
-        String formatted = null;
+        String formatted;
 
         try {
             formatted = String.format(placeholder, valueFillers);

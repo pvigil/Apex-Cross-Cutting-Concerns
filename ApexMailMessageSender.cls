@@ -59,7 +59,7 @@ global without sharing class ApexMailMessageSender extends ApexBaseMessageSender
      * @return ApexMessageSendResponse.
      */
     public override ApexMessageSendResponse send(ApexMessagePayload messagePayload) {
-        ApexMessageSendResponse response = null;
+        ApexMessageSendResponse response;
         // first reset the state
         this.reset()
 
@@ -116,7 +116,7 @@ global without sharing class ApexMailMessageSender extends ApexBaseMessageSender
             , String displayName
             , String subject
             , String body) {
-        Messaging.SendEmailResult[] result = null;
+        Messaging.SendEmailResult[] result;
 
         try {
             // Create a new Email
